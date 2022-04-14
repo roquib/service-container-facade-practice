@@ -8,6 +8,6 @@ class LogToFile implements Logger
 {
   public function log($message)
   {
-    echo "Log to file: $message";
+    echo "Log to file: $message  <br>";
   }
 }

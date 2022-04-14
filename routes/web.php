@@ -1,6 +1,12 @@
 <?php
 
+use App\Actions\LogToDatabase;
+use App\Actions\LogToFile;
+use App\Actions\MySqlConnection;
+use App\Contracts\DbConnectionInterface;
+use App\Http\Controllers\ConnectionsController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +32,7 @@ Route::get('/', function () {
     // ];
     // foreach ($loggers as $logger) {
     //     $controller = new UsersController($logger);
+
     //     $controller->show();
     // }
 
@@ -37,7 +44,10 @@ Route::get('/', function () {
 
     // $tea = new \App\Actions\Tea;
     // $tea->make();
+
+
 });
 
 
 Route::get('orders', [OrdersController::class, 'index']);
+Route::get('connections', [ConnectionsController::class, 'index']);

@@ -8,6 +8,6 @@ class LogToDatabase implements Logger
 {
   public function log($message)
   {
-    echo "Log to database: $message";
+    echo "Log to database: $message <br>";
   }
 }
