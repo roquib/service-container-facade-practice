@@ -9,6 +9,9 @@ use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentProvider\PaypalController;
+use App\Http\Controllers\PaymentProvider\SquarePayController;
+use App\Http\Controllers\PaymentProvider\StripeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +54,7 @@ Route::get('/', function () {
 
 Route::get('orders', [OrdersController::class, 'index']);
 Route::get('connections', [ConnectionsController::class, 'index']);
+
+Route::get('pay-with-paypal', [PaypalController::class, 'index']);
+Route::get('pay-with-stripe', [StripeController::class, 'index']);
+Route::get('pay-with-squarepay', [SquarePayController::class, 'index']);
