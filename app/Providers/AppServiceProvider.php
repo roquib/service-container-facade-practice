@@ -5,11 +5,17 @@ namespace App\Providers;
 use App\Actions\MySqlConnection;
 use App\Actions\OracleConnection;
 use App\Contracts\DbConnectionInterface;
+use App\Contracts\Logger;
+use App\Filters\NullFilter;
+use App\Filters\ProfanityFilter;
+use App\Filters\TooLongFilter;
+use App\Firewall;
 use Illuminate\Support\ServiceProvider;
 use App\Http\Controllers\PaymentProvider\PaypalController;
 use App\Http\Controllers\PaymentProvider\SquarePayController;
 use App\Http\Controllers\PaymentProvider\StripeController;
 use App\Interfaces\PaymentInterface;
+use App\Services\FilterService;
 use App\Services\PaypalService;
 use App\Services\SquarePayService;
 use App\Services\StripeService;
@@ -40,6 +46,23 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(SquarePayController::class)
             ->needs(PaymentInterface::class)
             ->give(SquarePayService::class);
+
+
+        $this->app->when(Firewall::class)
+            ->needs(FilterService::class)
+            ->give(function ($app) {
+                return [
+                    'null' => $app->make(NullFilter::class),
+                    'profanity' => $app->make(ProfanityFilter::class),
+                    'toolong' => $app->make(TooLongFilter::class)
+                ];
+            });
+
+        $this->app->when(Firewall::class)
+            ->needs(Logger::class)
+            ->give(function ($app) {
+                return new \App\Actions\LogToFile();
+            });
     }
 
     /**

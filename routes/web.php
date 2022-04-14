@@ -4,6 +4,10 @@ use App\Actions\LogToDatabase;
 use App\Actions\LogToFile;
 use App\Actions\MySqlConnection;
 use App\Contracts\DbConnectionInterface;
+use App\Filters\NullFilter;
+use App\Filters\ProfanityFilter;
+use App\Filters\TooLongFilter;
+use App\Firewall;
 use App\Http\Controllers\ConnectionsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\UsersController;
@@ -58,3 +62,10 @@ Route::get('connections', [ConnectionsController::class, 'index']);
 Route::get('pay-with-paypal', [PaypalController::class, 'index']);
 Route::get('pay-with-stripe', [StripeController::class, 'index']);
 Route::get('pay-with-squarepay', [SquarePayController::class, 'index']);
+
+Route::get('firewall', function () {
+    $firewall = App::make(Firewall::class);
+    $firewall->show('null');
+    $firewall->show('profanity');
+    $firewall->show('toolong');
+});
