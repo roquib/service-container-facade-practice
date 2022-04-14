@@ -5,6 +5,7 @@ use App\Actions\LogToFile;
 use App\Actions\MySqlConnection;
 use App\Aggregator\ReportAggregator;
 use App\Contracts\DbConnectionInterface;
+use App\Facades\Roquib;
 use App\Filters\NullFilter;
 use App\Filters\ProfanityFilter;
 use App\Filters\TooLongFilter;
@@ -80,4 +81,8 @@ Route::get('tags', function () {
 
 Route::get('method-inv-inj', function () {
     return [App::call([new UserReport, 'generate']), App::call(fn (DbOrderRepository $repository) => $repository->getAll())];
+});
+
+Route::get('facade', function () {
+    return roquib::get();
 });

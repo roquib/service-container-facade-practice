@@ -1,5 +1,6 @@
 <?php
 
+use App\Facades\Roquib;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -192,6 +193,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'roquib' => Roquib::class,
     ])->toArray(),
 
 ];

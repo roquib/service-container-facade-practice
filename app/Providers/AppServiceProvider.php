@@ -7,6 +7,7 @@ use App\Actions\OracleConnection;
 use App\Aggregator\ReportAggregator;
 use App\Contracts\DbConnectionInterface;
 use App\Contracts\Logger;
+use App\Factories\Roquib;
 use App\Filters\NullFilter;
 use App\Filters\ProfanityFilter;
 use App\Filters\TooLongFilter;
@@ -81,6 +82,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(ReportAggregator::class)
             ->needs(ReportService::class)
             ->giveTagged('reports');
+
+        $this->app->singleton('roquib', function ($app) {
+            return new Roquib();
+        });
     }
 
     /**
