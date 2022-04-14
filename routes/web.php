@@ -18,6 +18,7 @@ use App\Http\Controllers\PaymentProvider\PaypalController;
 use App\Http\Controllers\PaymentProvider\SquarePayController;
 use App\Http\Controllers\PaymentProvider\StripeController;
 use App\Reports\UserReport;
+use App\Repositories\DbOrderRepository;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,5 @@ Route::get('tags', function () {
 });
 
 Route::get('method-inv-inj', function () {
-
-    return App::call([new UserReport, 'generate']);
+    return [App::call([new UserReport, 'generate']), App::call(fn (DbOrderRepository $repository) => $repository->getAll())];
 });
