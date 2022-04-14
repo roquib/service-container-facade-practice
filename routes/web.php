@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentProvider\PaypalController;
 use App\Http\Controllers\PaymentProvider\SquarePayController;
 use App\Http\Controllers\PaymentProvider\StripeController;
+use App\Reports\UserReport;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,4 +75,9 @@ Route::get('firewall', function () {
 Route::get('tags', function () {
     $reports = App::make(ReportAggregator::class);
     $reports->aggregate();
+});
+
+Route::get('method-inv-inj', function () {
+
+    return App::call([new UserReport, 'generate']);
 });
