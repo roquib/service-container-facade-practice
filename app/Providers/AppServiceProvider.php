@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Actions\MySqlConnection;
 use App\Actions\OracleConnection;
+use App\Aggregator\ReportAggregator;
 use App\Contracts\DbConnectionInterface;
 use App\Contracts\Logger;
 use App\Filters\NullFilter;
@@ -15,8 +16,11 @@ use App\Http\Controllers\PaymentProvider\PaypalController;
 use App\Http\Controllers\PaymentProvider\SquarePayController;
 use App\Http\Controllers\PaymentProvider\StripeController;
 use App\Interfaces\PaymentInterface;
+use App\Reports\CpuReport;
+use App\Reports\MemoryReport;
 use App\Services\FilterService;
 use App\Services\PaypalService;
+use App\Services\ReportService;
 use App\Services\SquarePayService;
 use App\Services\StripeService;
 
@@ -63,6 +67,20 @@ class AppServiceProvider extends ServiceProvider
             ->give(function ($app) {
                 return new \App\Actions\LogToFile();
             });
+
+
+        $this->app->bind(CpuReport::class, function () {
+            return new CpuReport();
+        });
+
+        $this->app->bind(MemoryReport::class, function () {
+            return new MemoryReport();
+        });
+
+        $this->app->tag([CpuReport::class, MemoryReport::class], 'reports');
+        $this->app->when(ReportAggregator::class)
+            ->needs(ReportService::class)
+            ->giveTagged('reports');
     }
 
     /**

@@ -3,6 +3,7 @@
 use App\Actions\LogToDatabase;
 use App\Actions\LogToFile;
 use App\Actions\MySqlConnection;
+use App\Aggregator\ReportAggregator;
 use App\Contracts\DbConnectionInterface;
 use App\Filters\NullFilter;
 use App\Filters\ProfanityFilter;
@@ -68,4 +69,9 @@ Route::get('firewall', function () {
     $firewall->show('null');
     $firewall->show('profanity');
     $firewall->show('toolong');
+});
+
+Route::get('tags', function () {
+    $reports = App::make(ReportAggregator::class);
+    $reports->aggregate();
 });
